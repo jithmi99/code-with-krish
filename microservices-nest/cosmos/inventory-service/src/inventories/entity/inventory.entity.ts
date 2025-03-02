@@ -6,7 +6,7 @@ export class Inventory {
   id: number;
   @Column()
   name: string;
-  @Column()
+  @Column('decimal', { precision: 10, scale: 2 })
   price: number;
   @Column()
   quantity: number;

@@ -15,9 +15,9 @@ export class CustomerService {
     return this.customerRepository.find();
   }
 
-  createCustomer(createCustomerDto: CreateCustomerDto): Customer {
+  async createCustomer(createCustomerDto: CreateCustomerDto): Promise<Customer> {
     const customer: Customer = this.customerRepository.create(createCustomerDto);
-    return customer;
+    return this.customerRepository.save(customer);
   }
 
   async getCustomerById(id: number): Promise<Customer> {

@@ -16,9 +16,10 @@ export class InventoryService {
     return this.inventoryRepository.find();
   }
 
-  createInventory(createInventoryDto: CreateInventoryDto): Inventory {
+  async createInventory(createInventoryDto: CreateInventoryDto): Promise<Inventory> {
     const inventory: Inventory = this.inventoryRepository.create(createInventoryDto);
-    return inventory;
+
+    return this.inventoryRepository.save(inventory);
   }
 
   async getInventoryById(id: number): Promise<Inventory> {
@@ -39,5 +40,13 @@ export class InventoryService {
     }
 
     return ({available: true});
+  }
+
+  async updateInventoryById(id: number, quantity: number): Promise<Inventory> {
+    const inventory: Inventory = await this.inventoryRepository.findOne({ where: { id }});
+
+    inventory.quantity = inventory.quantity - quantity;
+
+    return this.inventoryRepository.save(inventory);
   }
 }
